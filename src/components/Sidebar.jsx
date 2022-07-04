@@ -8,7 +8,7 @@ import { useStateContext } from '../contexts/ContextProvider';
 
 
 const Sidebar = () => {
-  const {activeMenu, setActiveMenu, screenSize} = useStateContext();
+  const {activeMenu, setActiveMenu, screenSize, currentColor} = useStateContext();
 
   const handleCloseSideBar = () => {
     if(activeMenu && screenSize <= 900){
@@ -21,9 +21,9 @@ const Sidebar = () => {
   return (
     <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:overflow-auto pb-10">
       {activeMenu && (<>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center dark:text-gray-200">
           <Link to="/" onClick={handleCloseSideBar} className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:test-white text-slate-900">
-            <SiShopware /> <span>Capybara.io</span>
+            <SiShopware className='dark:text-gray-200' /> <span className='dark:text-gray-200'>Capybara.io</span>
           </Link>
           <TooltipComponent content="Menu" position="BottomCenter">
             <button type="button"
@@ -44,6 +44,11 @@ const Sidebar = () => {
                 to={`/${link.name}`}
                 key={link.name}
                 onClick={handleCloseSideBar}
+
+                style={({ isActive }) => ({
+                  backgroundColor: isActive? currentColor: ''
+                })}
+
                 className={({ isActive }) => isActive ? activeLink : normalLink}
                 >
                   {link.icon}
